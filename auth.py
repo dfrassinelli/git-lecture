@@ -1,6 +1,7 @@
 import getpass
 import pickle
 import sys
+import random
 
 def get_credentials():
     username = input('Enter your username: ')
@@ -9,8 +10,13 @@ def get_credentials():
 
 def hash_string(inputstring):
     # hash the string
-    hashed_password = sum(ord(char) for char in inputstring) 
+    salted = get_salt()
+    hashed_password = sum(ord(char) for char in inputstring+salted) 
     return hashed_password
+
+def get_salt():
+    my_char = list(map(chr, range(97, 123))) 
+    return random.choices(my_char, k=10) 
     
 def authenticate(username, password, pwdb):
     if username in pwdb:
