@@ -2,10 +2,18 @@ import getpass
 import pickle
 import sys
 
+def hash_pwd(password):
+    summing = 0
+    for letter in password:
+        summing+= ord(letter)
+    return summing
+
+
 def get_credentials():
     username = input('Enter your username: ')
     password = getpass.getpass('Enter your password: ')
-    return username, password
+    return username, hash_pwd(password)
+
 
 def authenticate(username, password, pwdb):
     if username in pwdb:
@@ -39,6 +47,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     username, password = get_credentials()
+    
     pwdb = read_pwdb(pwdb_file)
 
     if authenticate(username, password, pwdb):
